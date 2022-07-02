@@ -39,7 +39,7 @@
 
 #### 功能需求
 
-![img](https://secure2.wostatic.cn/static/mPwjmS4HPqMHEcibvhyUnS/image.png)
+![image](https://user-images.githubusercontent.com/84392021/176993054-61ab37b4-1178-4589-9346-821c5405c2e1.png)
 
 ### 开发技术规划
 
