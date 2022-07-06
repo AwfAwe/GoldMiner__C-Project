@@ -1,0 +1,64 @@
+﻿#ifndef VIEW_H
+#define VIEW_H
+
+#include <QMainWindow>
+#include <QPainter>
+#include <QPixmap>
+#include <QPaintEvent>
+#include <QTimer>
+#include <QKeyEvent>
+#include "common.h"
+#include ".\viewmodel\viewmodelcommand.h"
+typedef viewmodelcommand *VMptr;
+
+namespace Ui {
+class view;
+}
+
+class view : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+//    explicit view(QWidget *parent = nullptr);
+    explicit view(QWidget *parent = nullptr, int playernumber = DEFAULT_PLAYER_NUM, int minenumber = DEFAULT_MINE_NUM);
+    ~view();
+    void loadImg();
+    void paintEvent(QPaintEvent *event);
+    QPixmap rotateImageWithTransform(const QPixmap &src, int angle);
+    void setcoin(QVector<int>coins){for(int i=0;i<player_num;i++)role_coin[i]=coins[i];}
+    void setplayer(int player_number=1){player_num=player_number;}
+    void sethookposition(QVector<double>endx,QVector<double>endy,QVector<int>state,QVector<double>len,QVector<double>angle,QVector<int>dir);
+    void setmine(QVector<double>x,QVector<double>y,QVector<int>type,QVector<int>flag);
+
+    VMptr viewmodelinit();//
+
+
+private:
+    Ui::view *ui;
+    QVector<int>role_x;
+    QVector<int>role_y;
+    QVector<int>role_coin;
+    QVector<double>hook_x;
+    QVector<double>hook_y;
+    QVector<int>hook_state;
+    QVector<int>hook_dir;
+    QVector<double>hook_len;
+    QVector<double>hook_endx;
+    QVector<double>hook_endy;
+    QVector<double>hook_angle;
+    int player_num;
+    int mine_num;
+    QVector<double>mine_x;
+    QVector<double>mine_y;
+    QVector<int>mine_type;
+    QVector<int>mine_flag;
+
+    QTimer timer_frame, timer_clock;
+    int FrameTime, ClockTime;
+
+    viewmodelcommand *vm_;
+
+};
+
+#endif // VIEW_H
