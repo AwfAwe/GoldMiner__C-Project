@@ -16,12 +16,12 @@
 #define DeadAngleRange 10
 #define LEN 50
 #define MAPUPPERBOUND 120
-#define VIGOSPEED 0.5
+#define VIGOSPEED 2
 #define DEFAULT_PLAYER_NUM 3
 #define DEFAULT_MINE_NUM 15
 #define DEFAULT_HOOK_SPEED 2.0
 #define LEVELTIME 60
-
+#define DEBUGTIME 50
 #define DIS(A) \
 sqrt(pow(A.getx() - x, 2) + pow(A.gety() - y, 2))
 //int role_flag = 0, start_flag = 0;
@@ -35,7 +35,7 @@ typedef std::vector<int*> COINS;
 typedef std::vector<int*> STT;
 typedef std::vector<int*> TYPES;
 typedef std::vector<bool*> EXISTS;
-
+typedef int GOAL;
 
 enum Index
 {
@@ -62,6 +62,7 @@ enum ATTR {
     BIGSTONE,
     MONEY,
     DIAMOND,
+    DESTROY,
     //钩子方向
     LEFT,
     RIGHT,

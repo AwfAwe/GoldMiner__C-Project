@@ -2,9 +2,11 @@
 
 model::model(){
 //    model_map = std::make_shared<std::vector<Map*>>();
-    level_id = std::make_shared<int>(1);
+    level_id = std::make_shared<int>(0);
     player_num = std::make_shared<int>(DEFAULT_PLAYER_NUM);
     model_player = std::make_shared<std::vector<Player*>>();
+    level_goal = std::make_shared<GOAL>(0);
+    booms_num = std::make_shared<int>(0);
 
     for(int i=0; i<*player_num; ++i){
         players[i] = new Player(i, *player_num);
@@ -12,14 +14,8 @@ model::model(){
     }
     map_ = new Map();
     map_->mapInit(DEFAULT_MINE_NUM);
-
+//    booms_num
     std::cout<<"model construct address::"<<&((*model_player)[0]->GetRolex())<<std::endl;
-
-//    model_mine = std::make_shared<std::vector<Mine>>();
-//    model_role = std::make_shared<std::vector<Role>>();
-//    model_hook = std::make_shared<std::vector<Hook>>();
-//    model_map->push_back(Map());
-
 }
 
 
@@ -133,21 +129,102 @@ std::shared_ptr<std::vector<int*>> model::GetPlayerMoney(){
     return Playermoney;
 }
 
+std::shared_ptr<GOAL> model::GetLevelGoal(){
+    return level_goal;
+}
 
 bool model::framerun(){
      for(auto i = 0;i < DEFAULT_PLAYER_NUM;i++){
          (*model_player)[i]->hookRock();
          (*model_player)[i]->HookMove();
 
-         (*model_player)[i]->JudgeGrap(map_->GetMines(), DEFAULT_MINE_NUM);
+         (*model_player)[i]->JudgeGrap(map_->GetMines(), DEFAULT_MINE_NUM, false);
      }
     return true;
 }
 
 bool model::playerset(int idx){
-    (*model_player)[idx-1]->setState(M_LONG);
+    int StateGot = (*model_player)[idx]->getState();
+    if(StateGot == M_NORMAL){
+        (*model_player)[idx]->setState(M_LONG);
+    }
     return true;
 }
+
+bool model::gamereset(int ply_nm){
+    *player_num = ply_nm;
+    for(int i=0; i<*player_num; ++i){
+        int tmp_coin = (*model_player)[i]->GetCoin();
+        *((*model_player)[i])=Player(i+1,ply_nm);
+        (*model_player)[i]->Reset(false);
+        (*model_player)[i]->SetCoin(tmp_coin);
+    }
+    map_->mapInit(DEFAULT_MINE_NUM);
+    *level_id = *level_id + 1;
+    *level_goal = int (map_->GetTotalValue() * (0.7+0.05*(*player_num)));
+    return true;
+}
+
+std::shared_ptr<int>  model::GetBoomsNum(){
+    return booms_num;
+}
+
+bool model::Afford(int Price){
+    int totCoin = 0;
+    int Coin[3] = {0};
+    for(int i=0; i<*player_num; ++i){
+        Coin[i] = players[i]->GetCoin();
+        totCoin += Coin[i];
+    }
+    if(totCoin<Price){
+        return false;
+    }
+    for(int i=0; i<*player_num; ++i){
+        if(Coin[i]>=Price){
+            players[i]->SetCoin(Coin[i]-Price);
+            Price = 0;
+        }else{
+            Price -= Coin[i];
+            players[i]->SetCoin(0);
+        }
+    }
+
+    return true;
+}
+
+bool model::itemsbuy(int itemid){
+    switch (itemid) {
+    case 1: //大力水 100
+        if(Afford(100*(*player_num))){
+            for(int i=0; i<*player_num; ++i){
+                (*model_player)[i]->Reset(true);
+            }
+        }else{
+            return false;
+        }
+        break;
+
+    case 2:break;
+    case 3:break;
+    case 4:break;
+    case 5: //炸药 100
+        if(Afford(100)){
+            (*booms_num)++;
+        }else{
+            return false;
+        }
+        break;
+    }
+   return true;
+}
+bool model::usebooms(int idx){
+    if(*booms_num > 0 && (*model_player)[idx]->JudgeGrap(map_->GetMines(),DEFAULT_MINE_NUM, true)){
+        (*booms_num) --;
+    }
+    return true;
+}
+
+
 
 int model::GetLevelId(){
     return *level_id;

@@ -46,14 +46,27 @@ public:
     void SetMinesType(std::shared_ptr<TYPES>);
     void SetMinesExist(std::shared_ptr<EXISTS>);
 
+
+    void SetLevelGoal(std::shared_ptr<GOAL>);
+    void SetBoomsNum(std::shared_ptr<int>);
+
     void setFrameRunCommand(const std::shared_ptr<ICommandBase>& cmd);
     void setPlayerSetCommand(const std::shared_ptr<ICommandBase>& cmd);
+    void setGameResetCommand(const std::shared_ptr<ICommandBase>& cmd);
+    void setItemsBuyCommand(const std::shared_ptr<ICommandBase>& cmd);
+    void setUseBoomCommand(const std::shared_ptr<ICommandBase>& cmd);
+
 
     void FrameOperation();
+    void PlayerSet(int idx);
+    void GameReset();
+    void ItemBuy(int item_id);
+    void BoomUse(int idx);
+
     void ClockChange();
     void settime(double time){countdown=time;}
-    void PlayerSet(int idx);
     void SetTimer();
+
 private:
     Ui::view *ui;
     int player_num;
@@ -76,15 +89,36 @@ private:
     std::shared_ptr<TYPES> mine_type;
     std::shared_ptr<EXISTS> mine_flag;
 
+    std::shared_ptr<int> level_goal;
+    std::shared_ptr<int> booms_num;
+
     std::shared_ptr<ICommandBase> m_cmdFrameRun;
     std::shared_ptr<ICommandBase> m_cmdPlayerSet;
-
+    std::shared_ptr<ICommandBase> m_cmdGameReset;
+    std::shared_ptr<ICommandBase> m_cmdItemsBuy;
+    std::shared_ptr<ICommandBase> m_cmdUseBoom;
 
     QTimer Timer_frame, Timer_clock;
     int frameTime, clockTime;
     int cur_second;
-    int stop_flag;
     int money;
+    int level_id;
+    int total_goal;
+    int buy[6];
+
+    double boom_x[3];
+    double boom_y[3];
+    int boom_time[3];
+    int boom_flag[3];
+
+    int page_flag;
+    /*
+      page_flag = 0 ::  Start_Page
+      page_flag = 1 ::  Game_Page
+      page_flag = 2 ::  result_page
+      page_flag = 3 ::  shop_page
+     */
+
 };
 
 
