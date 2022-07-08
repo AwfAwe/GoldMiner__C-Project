@@ -45,7 +45,7 @@ void Level::JudgeFetch(){
     Player *ply;
     for(int i=1; i<=n; ++i){
         ply = GetPlayer(i);
-        ply->JudgeGrap(GetMines(), GetMineNum());
+        ply->JudgeGrap(GetMines(), GetMineNum(), false);
 //        NotifyHook(i-1, ply->getendx(), ply->getendy(), ply->getAngle(), ply->getState());
     }
 }

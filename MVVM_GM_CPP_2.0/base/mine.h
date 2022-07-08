@@ -14,11 +14,11 @@ private:
 public:
     double& getx() {return x;}
     double& gety() {return y;}
-    double& getSizex() {return sizex;}
-    double& getSizey() {return sizey;}
+    double getSizex() {return sizex;}
+    double getSizey() {return sizey;}
     bool& getExist(){return flag;}
     bool& isheld(){return hold;}
-    int& getGold(){return gold;}
+    int getGold(){return gold;}
     int& getType(){return type;}
     bool CheckForCover(Mine &other);
 
@@ -28,6 +28,7 @@ public:
     void sety(double ny){y=ny;}
     void setFlagfalse(){flag = false;}
     void setHoldTrue(){hold = true;}
+    void settype(int tp){type = tp;}
 //    friend void Player::JudgeGrap(Mine mine[], int mine_num)
 };
 #endif // MINE_H
