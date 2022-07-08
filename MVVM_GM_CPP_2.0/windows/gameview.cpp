@@ -12,10 +12,10 @@ view::view(QWidget *parent, int playernumber, int minenumber):
   player_num(playernumber),
   mine_num(minenumber)
 {
-//    printf("HOW\n");
+
     loadImg();
 //    ui->setupUi(this);
-//    printf("HOW\n");
+
     stop_flag = false;
     cur_second = 0;
     money=0;
@@ -219,23 +219,23 @@ void view::paintEvent(QPaintEvent *event)
     //绘制人物
     for(int i=0;i<player_num;i++)
     {
-        if ((*hook_state)[i] == M_NORMAL)
+        if (*((*hook_state)[i]) == M_NORMAL)
             {
                 pix.load(filename[i_roleDown]);
-                painter.drawPixmap((*role_x)[i],(*role_y)[i],pix.width(),pix.height(),pix);
+                painter.drawPixmap(*((*role_x)[i]),*((*role_y)[i]),pix.width(),pix.height(),pix);
             }
             else
             {
                 if (i_down%20<10)
                 {
                     pix.load(filename[i_roleDown]);
-                    painter.drawPixmap((*role_x)[i],(*role_y)[i],pix.width(),pix.height(),pix);
+                    painter.drawPixmap(*((*role_x)[i]),*((*role_y)[i]),pix.width(),pix.height(),pix);
                     i_down++;
                 }
                 else
                 {
                     pix.load(filename[i_roleUp]);
-                    painter.drawPixmap((*role_x)[i],(*role_y)[i],pix.width(),pix.height(),pix);
+                    painter.drawPixmap(*((*role_x)[i]),*((*role_y)[i]),pix.width(),pix.height(),pix);
                     i_down++;
                 }
             }
@@ -244,7 +244,7 @@ void view::paintEvent(QPaintEvent *event)
     //输出钱
     money = 0;
     for(int i=0;i<player_num;i++)
-        money += (*player_coin)[i];
+        money += *((*player_coin)[i]);
     QFont font;
     painter.setPen(QColor(Qt::black));
     font.setPointSize(30);
@@ -261,8 +261,8 @@ void view::paintEvent(QPaintEvent *event)
     painter.drawText(150, 42, s);
     for(int i=0;i<player_num;i++)
     {
-        s = QString::number((*player_coin)[i]);
-        painter.drawText((*role_x)[i]+40,(*role_y)[i]*16, s);
+        s = QString::number(*((*player_coin)[i]));
+        painter.drawText(*((*role_x)[i])+40,*((*role_y)[i])*16, s);
     }
 
     //输出时间
@@ -278,56 +278,56 @@ void view::paintEvent(QPaintEvent *event)
     pix3.load(filename[25]);
     for(int i=0;i<player_num;i++)
     {
-        painter.drawLine(QPoint((*hook_x)[i],(*hook_y)[i]),QPoint((*hook_endx)[i],(*hook_endy)[i]));
+        painter.drawLine(QPoint(*((*hook_x)[i]),*((*hook_y)[i])),QPoint(*((*hook_endx)[i]),*((*hook_endy)[i])));
         if(!i)
         {
-            pix=rotateImageWithTransform(pix, -(*hook_angle)[i]);
-            painter.drawPixmap((*hook_endx)[i] - 18, (*hook_endy)[i] - 24,pix);
+            pix=rotateImageWithTransform(pix, -*((*hook_angle)[i]));
+            painter.drawPixmap(*((*hook_endx)[i]) - 18, *((*hook_endy)[i]) - 24,pix);
         }
         if(i==1)
         {
-            pix2=rotateImageWithTransform(pix2, -(*hook_angle)[i]);
-            painter.drawPixmap((*hook_endx)[i] - 18, (*hook_endy)[i] - 24,pix2);
+            pix2=rotateImageWithTransform(pix2, -*((*hook_angle)[i]));
+            painter.drawPixmap(*((*hook_endx)[i]) - 18, *((*hook_endy)[i]) - 24,pix2);
         }
         if(i==2)
         {
-            pix3=rotateImageWithTransform(pix3, -(*hook_angle)[i]);
-            painter.drawPixmap((*hook_endx)[i] - 18, (*hook_endy)[i] - 24,pix3);
+            pix3=rotateImageWithTransform(pix3, -*((*hook_angle)[i]));
+            painter.drawPixmap(*((*hook_endx)[i]) - 18, *((*hook_endy)[i]) - 24,pix3);
         }
 
     }
 
     //画金子
     for (int i = 0; i < DEFAULT_MINE_NUM; i++) {
-            if ((*mine_flag)[i] == true) {
-                switch ((*mine_type)[i]) {
+            if (*((*mine_flag)[i]) == true) {
+                switch (*((*mine_type)[i])) {
                 case LITTLEGOLD:
                     pix.load(filename[i_goldsmall]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case MIDGOLD:
                     pix.load(filename[i_goldmiddle]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case BIGGOLD:
                     pix.load(filename[i_goldbig]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case LITTLESTONE:
                     pix.load(filename[i_stonesmall]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case BIGSTONE:
                     pix.load(filename[i_stonebig]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case MONEY:
                     pix.load(filename[i_money]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 case DIAMOND:
                     pix.load(filename[i_diamond]);
-                    painter.drawPixmap((*mine_x)[i], (*mine_y)[i],pix);
+                    painter.drawPixmap(*((*mine_x)[i]), *((*mine_y)[i]),pix);
                     break;
                 }
             }

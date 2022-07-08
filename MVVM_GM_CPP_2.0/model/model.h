@@ -12,7 +12,7 @@ private:
     std::shared_ptr<int> level_id;
     std::shared_ptr<int> player_num;
     Player *players[4];
-    Map *Map;
+    Map *map_;
 public:
     model();
     void setminer(int idx,double x,double y);

@@ -28,13 +28,13 @@ sqrt(pow(A.getx() - x, 2) + pow(A.gety() - y, 2))
 //int i_up = 1, i_down = 0;
 
 
-typedef std::vector<double> POS;
+typedef std::vector<double*> POS;
 typedef std::vector<double&> POSx;
-typedef std::vector<double> ANGLES;
-typedef std::vector<int> COINS;
-typedef std::vector<int> STT;
-typedef std::vector<int> TYPES;
-typedef std::vector<bool> EXISTS;
+typedef std::vector<double*> ANGLES;
+typedef std::vector<int*> COINS;
+typedef std::vector<int*> STT;
+typedef std::vector<int*> TYPES;
+typedef std::vector<bool*> EXISTS;
 
 
 enum Index

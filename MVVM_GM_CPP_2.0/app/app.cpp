@@ -32,7 +32,7 @@ void app::run(){
     _mainwindow.setPlayerSetCommand(viewmodel_ptr->GetPlayerSet());
 
     _mainwindow.SetTimer();
-    std::cout << "WHT2"<<std::endl;
+//    std::cout << "WHT2"<<std::endl;
     _mainwindow.show();
 }
 
