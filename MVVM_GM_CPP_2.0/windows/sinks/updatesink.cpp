@@ -8,5 +8,6 @@ void updateSink::OnPropertyChanged(const std::string &str){
 //    if(str == "Changed"){
      mainwindow_ptr->update();
 
+
 //    }
 }

@@ -5,6 +5,7 @@
 #include "..\base\player.h"
 #include "./common/etlbase.h"
 
+
 class model: public Proxy_PropertyNotification<model>{
 private:
 

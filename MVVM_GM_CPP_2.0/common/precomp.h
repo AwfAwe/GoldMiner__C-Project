@@ -37,6 +37,7 @@ typedef std::vector<int*> TYPES;
 typedef std::vector<bool*> EXISTS;
 typedef int GOAL;
 
+
 enum Index
 {
     i_goldsmall=0,

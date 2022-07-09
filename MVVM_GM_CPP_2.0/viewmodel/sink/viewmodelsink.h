@@ -4,6 +4,7 @@
 
 class ViewModel;
 
+
 class ViewModelSink:public IPropertyNotification
 {
 public:
