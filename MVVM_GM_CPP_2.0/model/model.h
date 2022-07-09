@@ -3,8 +3,9 @@
 #include <memory>
 #include "..\base\map.h"
 #include "..\base\player.h"
+#include "./common/etlbase.h"
 
-class model{
+class model: public Proxy_PropertyNotification<model>{
 private:
 
     std::shared_ptr<std::vector<Player*>> model_player;

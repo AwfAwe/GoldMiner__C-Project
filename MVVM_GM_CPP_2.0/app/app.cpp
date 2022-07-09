@@ -35,6 +35,10 @@ void app::run(){
     _mainwindow.setGameResetCommand(viewmodel_ptr->GetGameReset());
     _mainwindow.setItemsBuyCommand(viewmodel_ptr->GetItemsBuy());
     _mainwindow.setUseBoomCommand(viewmodel_ptr->GetUseBoom());
+
+    //notifications
+    viewmodel_ptr->AddPropertyNotification(_mainwindow.get_updateSink());
+
     _mainwindow.show();
 }
 

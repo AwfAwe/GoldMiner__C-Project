@@ -4,10 +4,12 @@
 #include "./command/gameresetcommand.h"
 #include "./command/buyitemscommand.h"
 #include "./command/useboomcommand.h"
+#include "./sink/viewmodelsink.h"
 #include "../model/model.h"
 #include "../common/precomp.h"
+#include "../common/etlbase.h"
 
-class ViewModel
+class ViewModel: public Proxy_PropertyNotification<ViewModel>
 {
 public:
     ViewModel();
@@ -50,5 +52,7 @@ private:
     std::shared_ptr<GameResetCommand> m_cmdGameReset;
     std::shared_ptr<BuyItemsCommand> m_cmdBuyItems;
     std::shared_ptr<UseBoomCommand> m_cmdUseBoom;
+
+    std::shared_ptr<ViewModelSink> m_sink;
 };
 

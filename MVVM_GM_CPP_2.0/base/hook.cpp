@@ -89,8 +89,8 @@ void Hook::HookMove() {//钩子位置变化
         }
     }
     else if (state == M_SHORT) {//收勾时，钩子位置一直变化
-        endx -= sin(PI / 180 * this->angle) * (speed + mine_speed + vigo_speed);
-        endy -= cos(PI / 180 * this->angle) * (speed + mine_speed + vigo_speed);
+        endx -= sin(PI / 180 * this->angle) * (speed + 1.5 + mine_speed + vigo_speed);
+        endy -= cos(PI / 180 * this->angle) * (speed + 1.5 + mine_speed + vigo_speed);
         std::cout<<"vigo_speed Speed: " << vigo_speed <<std::endl;
         if (GetCurrentLen() <= LEN) {//钩子复原时，绳子回到正常状态
             state = M_NORMAL;

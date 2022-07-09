@@ -161,7 +161,7 @@ bool model::gamereset(int ply_nm){
     }
     map_->mapInit(DEFAULT_MINE_NUM);
     *level_id = *level_id + 1;
-    *level_goal = int (map_->GetTotalValue() * (0.7+0.05*(*player_num)));
+    *level_goal += int (map_->GetTotalValue() * (0.7+0.05*(*player_num)));
     return true;
 }
 
@@ -199,17 +199,39 @@ bool model::itemsbuy(int itemid){
             for(int i=0; i<*player_num; ++i){
                 (*model_player)[i]->Reset(true);
             }
+            Fire_OnPropertyChanged("Changed");
         }else{
             return false;
         }
         break;
 
-    case 2:break;
-    case 3:break;
-    case 4:break;
+    case 2:
+        if(Afford(50)){
+            Fire_OnPropertyChanged("Changed");
+        }else{
+            return false;
+        }
+
+        break;
+    case 3:
+        if(Afford(100)){
+            Fire_OnPropertyChanged("Changed");
+        }else{
+            return false;
+        }
+        break;
+    case 4:
+        if(Afford(200)){
+            Fire_OnPropertyChanged("Changed");
+        }else{
+            return false;
+        }
+
+        break;
     case 5: //炸药 100
         if(Afford(100)){
             (*booms_num)++;
+            Fire_OnPropertyChanged("Changed");
         }else{
             return false;
         }

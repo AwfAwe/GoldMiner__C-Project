@@ -53,19 +53,19 @@ bool Player::JudgeGrap(Mine mine[], int mine_num, bool flag) {// 判断是否抓
                 setMine_speed(-0.5);
                 break;
             case MIDGOLD:
-                setMine_speed(-1.0);
+                setMine_speed(-2.0);
                 break;
             case BIGGOLD:
-                setMine_speed(-1.5);
+                setMine_speed(-3.5);
                 break;
             case LITTLESTONE:
-                setMine_speed(-1.0);
+                setMine_speed(-2.5);
                 break;
             case BIGSTONE:
-                setMine_speed(-1.5);
+                setMine_speed(-3.5);
                 break;
             case MONEY:
-                setMine_speed(-1.0*(rand()%10+1)/20);
+                setMine_speed(-2.0*(rand()%10+1)/20);
                 break;
             case DIAMOND:
                 setMine_speed(0);

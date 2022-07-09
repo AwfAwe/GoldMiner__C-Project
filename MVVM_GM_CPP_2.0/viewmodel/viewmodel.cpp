@@ -5,12 +5,13 @@ ViewModel::ViewModel():
     m_cmdPlayerSet(std::make_shared<PlayerSetCommand>(this)),
     m_cmdGameReset(std::make_shared<GameResetCommand>(this)),
     m_cmdBuyItems(std::make_shared<BuyItemsCommand>(this)),
-    m_cmdUseBoom(std::make_shared<UseBoomCommand>(this))
+    m_cmdUseBoom(std::make_shared<UseBoomCommand>(this)),
+    m_sink(std::make_shared<ViewModelSink>(this))
 {}
 
 void ViewModel::SetModel(const std::shared_ptr<model> &model_){
     m_model = model_;
-//    m_mode->AddPropertyNotification(std::static_pointer_cast<IPropertyNotification>(m_sink));
+    m_model->AddPropertyNotification(std::static_pointer_cast<IPropertyNotification>(m_sink));
 //    todo : notification
 }
 

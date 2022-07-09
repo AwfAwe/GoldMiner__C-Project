@@ -3,25 +3,25 @@
 #include "../common/precomp.h"
 #include <QDebug>
 #include <iostream>
-//using std::cout, std::endl;
+
 char filename[40][20];
 int i_up = 1, i_down = 0;
 view::view(QWidget *parent, int playernumber, int minenumber):
     QMainWindow(parent),
 //    ui(new Ui::view),
-
-  player_num(playernumber),
-  mine_num(minenumber)
+    player_num(playernumber),mine_num(minenumber),
+    m_updateSink(std::make_shared<updateSink>(this))
 {
 
     loadImg();
 //    ui->setupUi(this);
     for(int i=0;i<6;i++)
         buy[i]=0;
+    money=0;
     level_id = 0;
     page_flag = 0;
     cur_second = 0;
-    money=0;
+    boom_flag[0]=boom_flag[1]=boom_flag[2]=false;
     frameTime = 10;
     clockTime = 1000;
     Timer_frame.setInterval(frameTime);
@@ -36,6 +36,10 @@ void view::SetTimer(){
     Timer_frame.start();
     Timer_clock.start();
 
+}
+
+std::shared_ptr<IPropertyNotification> view::get_updateSink(){
+    return std::static_pointer_cast<IPropertyNotification>(m_updateSink);
 }
 
 void view::SetPlayersPosX(std::shared_ptr<POS> ply_PosX){
@@ -154,8 +158,8 @@ void view::BoomUse(int idx){
     m_cmdUseBoom->SetParameter(idx);
     m_cmdUseBoom->Exec();
     boom_flag[idx] = true;
-    boom_x[idx]=*((*hook_endx)[0]);
-    boom_y[idx]=*((*hook_endy)[0]);
+    boom_x[idx]=*((*hook_endx)[idx]);
+    boom_y[idx]=*((*hook_endy)[idx]);
     boom_time[idx] = cur_second;
 
 }
@@ -289,7 +293,7 @@ void view::paintEvent(QPaintEvent *event)
     if(page_flag==1&&LEVELTIME-cur_second<=0+DEBUGTIME){
         page_flag = 2;
         Timer_frame.stop();
-        GameReset();
+
     }
     if(page_flag == 1){ // 游戏界面
 
@@ -464,14 +468,14 @@ void view::paintEvent(QPaintEvent *event)
         info.italic();
         // 转换
         painter.setTransform(transform);
-        if(money>=0)
+        if(money>=*level_goal)
             painter.drawText(1266/2-80,766/2-100, QStringLiteral("通关成功"));
         else
         {
              painter.drawText(1266/2-80,766/2-100, QStringLiteral("通关失败"));
-             painter.drawText(1266/2-80,766/2, QStringLiteral("得分："));
+             painter.drawText(1266/2-180,766/2, QStringLiteral("您的最后得分："));
              QString s = QString::number(money);
-             painter.drawText(1266/2+50,766/2, s);
+             painter.drawText(1266/2+150,766/2, s);
              return;
         }
         painter.drawText(1266/2-80,766/2, QStringLiteral("得分："));
@@ -479,7 +483,7 @@ void view::paintEvent(QPaintEvent *event)
         painter.drawText(1266/2+50,766/2, s);
         if(LEVELTIME-cur_second<=-2+DEBUGTIME){
             page_flag=3;
-//            update();
+            GameReset();
         }
         return;
 
@@ -514,9 +518,6 @@ void view::paintEvent(QPaintEvent *event)
 //            painter.drawText(*((*role_x)[i])+40,*((*role_y)[i])*16, s);
 //        }
 
-
-
-
         painter.setPen(QColor(Qt::white));
         font.setPointSize(15);
         painter.setFont(font);
@@ -529,14 +530,13 @@ void view::paintEvent(QPaintEvent *event)
         painter.setTransform(transform);
 
 
-
-
         if(!buy[1])
         {
             pix.load("G:/images/10");
             painter.drawPixmap(100,766/2,pix);
             painter.drawText(50,766/2-100, QStringLiteral("大力药水："));
             painter.drawText(50,766/2-50, QStringLiteral("抓取速度增加"));
+            painter.drawText(50,766/2+100, QStringLiteral("价格：100/个"));
             painter.drawText(50,766/2+150, QStringLiteral("按下“1”购买"));
         }
         if(!buy[2])
@@ -545,6 +545,7 @@ void view::paintEvent(QPaintEvent *event)
             painter.drawPixmap(300,766/2,pix);
             painter.drawText(250,766/2-100, QStringLiteral("石头收藏书："));
             painter.drawText(250,766/2-50, QStringLiteral("石头变得更值钱"));
+            painter.drawText(250,766/2+100, QStringLiteral("价格：50"));
             painter.drawText(250,766/2+150, QStringLiteral("按下“2”购买"));
         }
         if(!buy[3])
@@ -553,6 +554,7 @@ void view::paintEvent(QPaintEvent *event)
             painter.drawPixmap(500,766/2,pix);
             painter.drawText(450,766/2-100, QStringLiteral("幸运草："));
             painter.drawText(450,766/2-50, QStringLiteral("更容易发现钻石"));
+            painter.drawText(450,766/2+100, QStringLiteral("价格：100"));
             painter.drawText(450,766/2+150, QStringLiteral("按下“3”购买"));
         }
         if(!buy[4])
@@ -561,6 +563,7 @@ void view::paintEvent(QPaintEvent *event)
             painter.drawPixmap(700,766/2,pix);
             painter.drawText(650,766/2-100, QStringLiteral("沙漏："));
             painter.drawText(650,766/2-50, QStringLiteral("下一局时间增加"));
+            painter.drawText(650,766/2+100, QStringLiteral("价格：200"));
             painter.drawText(650,766/2+150, QStringLiteral("按下“4”购买"));
         }
         if(!buy[5])
@@ -569,8 +572,10 @@ void view::paintEvent(QPaintEvent *event)
             painter.drawPixmap(900,766/2,pix);
             painter.drawText(850,766/2-100, QStringLiteral("炸药："));
             painter.drawText(850,766/2-50, QStringLiteral("炸毁已抓到的物品"));
+            painter.drawText(850,766/2+100, QStringLiteral("价格：100/个"));
             painter.drawText(850,766/2+150, QStringLiteral("按下“5”购买"));
         }
+        painter.drawText(350,766/2+300, QStringLiteral("按下“ENTER”继续游戏"));
         pix.load("G:/images/23");
         painter.drawPixmap(1000,766/2,pix);
 
@@ -596,9 +601,17 @@ void view::paintEvent(QPaintEvent *event)
         painter.drawText(150,220, QStringLiteral("按下“Q”开始单人模式"));
         painter.drawText(150,260, QStringLiteral("按下“W”开始双人模式"));
         painter.drawText(150,300, QStringLiteral("按下“E”开始三人模式"));
-
-
+        painter.setPen(QColor(Qt::white));
+        painter.setFont(font);
+        // 获取字体信息
+        info = painter.fontInfo();
+        info.family();
+        info.italic();
+        // 转换
+        painter.setTransform(transform);
+        painter.drawText(100,520, QStringLiteral("玩家1: S——放钩子 W——放炸药"));
+        painter.drawText(100,620, QStringLiteral("玩家2: K——放钩子 I——放炸药"));
+        painter.drawText(100,720, QStringLiteral("玩家3: 方向键下——放钩子 方向键上——放炸药"));
     }
-
 
 }

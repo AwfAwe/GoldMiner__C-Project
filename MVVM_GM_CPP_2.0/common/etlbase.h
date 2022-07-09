@@ -46,3 +46,52 @@ protected:
     std::vector<std::shared_ptr<T>> noty_array;
 };
 
+class IPropertyNotification{
+public:
+    virtual void OnPropertyChanged(const std::string& str) = 0;
+
+};
+
+class ICommandNotification
+{
+public:
+    virtual void OnCommandComplete(const std::string& str, bool bOK) = 0;
+
+};
+
+template <class T>
+class Proxy_PropertyNotification : public NotificationImpl<IPropertyNotification>
+{
+public:
+    void AddPropertyNotification(const std::shared_ptr<IPropertyNotification>& p){
+        AddNotification(p);
+    }
+    void RemovePropertyNotificaiton(const std::shared_ptr<IPropertyNotification>& p) throw()
+    {
+        RemoveNotification(p);
+    }
+    void Fire_OnPropertyChanged(const std::string& str){
+        auto iter(noty_array.begin());
+        for( ; iter != noty_array.end(); ++iter){
+            (*iter)->OnPropertyChanged(str);
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

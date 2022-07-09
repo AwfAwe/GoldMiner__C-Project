@@ -10,7 +10,7 @@
 #include <time.h>
 #include "../common/etlbase.h"
 #include "../common/precomp.h"
-
+#include "./sinks/updatesink.h"
 namespace Ui {
 class view;
 }
@@ -67,6 +67,8 @@ public:
     void settime(double time){countdown=time;}
     void SetTimer();
 
+    std::shared_ptr<IPropertyNotification> get_updateSink();
+
 private:
     Ui::view *ui;
     int player_num;
@@ -97,6 +99,9 @@ private:
     std::shared_ptr<ICommandBase> m_cmdGameReset;
     std::shared_ptr<ICommandBase> m_cmdItemsBuy;
     std::shared_ptr<ICommandBase> m_cmdUseBoom;
+
+    std::shared_ptr<updateSink> m_updateSink;
+
 
     QTimer Timer_frame, Timer_clock;
     int frameTime, clockTime;

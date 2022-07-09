@@ -30,9 +30,11 @@ SOURCES += \
     viewmodel/command/gameresetcommand.cpp \
     viewmodel/command/playersetcommand.cpp \
     viewmodel/command/useboomcommand.cpp \
+    viewmodel/sink/viewmodelsink.cpp \
     viewmodel/viewmodel.cpp \
     windows/gameview.cpp \
-    windows/sinks/mainwindowcommandsink.cpp
+    windows/sinks/mainwindowcommandsink.cpp \
+    windows/sinks/updatesink.cpp
 
 HEADERS += \
     app/app.h \
@@ -50,9 +52,11 @@ HEADERS += \
     viewmodel/command/gameresetcommand.h \
     viewmodel/command/playersetcommand.h \
     viewmodel/command/useboomcommand.h \
+    viewmodel/sink/viewmodelsink.h \
     viewmodel/viewmodel.h \
     windows/gameview.h \
-    windows/sinks/mainwindowcommandsink.h
+    windows/sinks/mainwindowcommandsink.h \
+    windows/sinks/updatesink.h
 
 FORMS += \
 #    view.ui
