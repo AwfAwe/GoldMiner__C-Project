@@ -117,6 +117,9 @@ private:
     int boom_flag[3];
 
     int page_flag;
+
+
+
     /*
       page_flag = 0 ::  Start_Page
       page_flag = 1 ::  Game_Page
