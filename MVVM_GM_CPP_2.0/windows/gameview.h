@@ -19,6 +19,8 @@ class view : public QMainWindow
 {
     Q_OBJECT
 
+
+
 public:
 
     explicit view(QWidget *parent = nullptr, int playernumber = DEFAULT_PLAYER_NUM, int minenumber = DEFAULT_MINE_NUM);

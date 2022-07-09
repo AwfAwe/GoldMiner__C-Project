@@ -184,8 +184,6 @@ QPixmap view::rotateImageWithTransform(const QPixmap &src, int angle)
     //中心旋转
     matri.rotate(angle);
     //回退中心
-    
-    
     matri.translate(-src.width()/2.0,-src.height()/2.0);
     //执行坐标映射变化
     //旋转后图像大小变化了 需要提前进行裁剪 如果在旋转后裁剪
