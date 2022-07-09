@@ -9,6 +9,8 @@
 #include "../common/precomp.h"
 #include "../common/etlbase.h"
 
+
+
 class ViewModel: public Proxy_PropertyNotification<ViewModel>
 {
 public:

@@ -17,6 +17,7 @@ private:
     std::shared_ptr<GOAL> level_goal;
     std::shared_ptr<int>  booms_num;
 
+
 public:
     model();
     void setminer(int idx,double x,double y);

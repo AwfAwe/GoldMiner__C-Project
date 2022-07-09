@@ -14,4 +14,6 @@ private:
     int m_param;
 };
 
+
+
 #endif // USEBOOMCOMMAND_H
