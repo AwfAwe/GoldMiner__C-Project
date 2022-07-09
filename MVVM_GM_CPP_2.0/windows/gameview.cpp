@@ -12,7 +12,6 @@ view::view(QWidget *parent, int playernumber, int minenumber):
     player_num(playernumber),mine_num(minenumber),
     m_updateSink(std::make_shared<updateSink>(this))
 {
-
     loadImg();
 //    ui->setupUi(this);
     for(int i=0;i<6;i++)
@@ -203,6 +202,7 @@ QPixmap view::rotateImageWithTransform(const QPixmap &src, int angle)
 
 void view::keyPressEvent(QKeyEvent *event)
 {
+	
     if(page_flag == 1){
 
         switch(event->key()){
