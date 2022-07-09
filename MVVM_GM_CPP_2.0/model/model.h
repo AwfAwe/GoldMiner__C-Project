@@ -27,7 +27,6 @@ public:
     void setmoney(int idx,int money);
 
     bool framerun();
-
     bool playerset(int idx);
     bool gamereset(int ply_nm);
     bool itemsbuy(int itemid);
