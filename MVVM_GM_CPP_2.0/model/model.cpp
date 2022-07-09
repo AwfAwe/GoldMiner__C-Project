@@ -80,6 +80,7 @@ std::shared_ptr<std::vector<double*>> model::GetMinePosx(){
 std::shared_ptr<std::vector<double*>> model::GetMinePosy(){
     std::shared_ptr<std::vector<double*>> MinePosy = std::make_shared<std::vector<double*>>();
     Mine* GotMines = map_->GetMines();
+    
     for(int i=0; i<map_->GetMineNum();++i){
         MinePosy->push_back(&(GotMines[i].gety()));
     }
@@ -90,6 +91,7 @@ std::shared_ptr<std::vector<bool*>> model::GetMineExist(){
     std::shared_ptr<std::vector<bool*>> MineExist = std::make_shared<std::vector<bool*>>();
     Mine* GotMines = map_->GetMines();
     for(int i=0; i<map_->GetMineNum();++i){
+        
         MineExist->push_back(&(GotMines[i].getExist()));
     }
     return MineExist;
